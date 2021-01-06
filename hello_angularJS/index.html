@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ng-app é uma Diretiva, conjunto de instruções para execução -->
+<!-- ng-app é uma Diretiva -->
 <html ng-app="helloAngular" lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     // Below, find a module ⬇                   
     angular.module("helloAngular").controller("helloAngularCtrl", function ($scope) {
       // $scope shared between View and Controller, it is being Injected as a ⬆ Dependency, gateway to view
+      // $scope is an OBJECT shared between the View and Controller 
       $scope.message = "Hello AngularJS";
     });
   </script>
