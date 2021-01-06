@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- ng-app é uma Diretiva, conjunto de instruções para execução -->
+<html ng-app="helloAngular" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello AngularJS</title>
+  <script src="angular.js"></script>
+  <script>
+    angular.module("helloAngular", []); // Create a module
+    // Below, find a module ⬇                   
+    angular.module("helloAngular").controller("helloAngularCtrl", function ($scope) {
+      // $scope shared between View and Controller, it is being Injected as a ⬆ Dependency, gateway to view
+      $scope.message = "Hello AngularJS";
+    });
+  </script>
+</head>
+<body>
+  <div ng-controller="helloAngularCtrl">
+    <!-- ⬇ {{}} Expression Interpolation, can show anything that is in $scope -->
+    {{message}}
+  </div>
+</body>
+</html>
