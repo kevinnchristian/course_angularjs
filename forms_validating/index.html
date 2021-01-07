@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html ng-app="telephoneDirectory" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/img/angular_icon.png" type="image/x-icon">
+  <title>Forms in AngularJS</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-messages.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  <style>
+    .jumbotron {
+      width: 460px;
+      text-align: center;
+      margin: 20px auto 0 auto;
+    }
+
+    .table {
+      margin-top: 20px;
+    }
+
+    .form-control {
+      margin-bottom: 10px;
+    }
+    .selected {
+      background: #FFF0A5;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .divColorContact {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+  </style>
+
+  <script>
+    angular.module('telephoneDirectory', ['ngMessages']);
+    angular.module('telephoneDirectory').controller('telephoneDirectoryCtrl', function ($scope) {
+      $scope.app = 'Telephone Directory';
+      $scope.contacts = [
+        { name: 'Pedro', phone: '99999-8888', operator: { name: 'Tim' }, color: { hexa: '#549EF7' } },
+        { name: 'Ana', phone: '99999-8877', operator: { name: 'Claro' }, color: { hexa: '#BF0413'} },
+        { name: 'Maria', phone: '99999-8866', operator: { name: 'Oi' }, color: { hexa: '#F2B705'} }
+      ];
+      $scope.operators = [
+        { name: 'Oi', code: 31, category: 'Smartphone' },
+        { name: 'Vivo', code: 15, category: 'Smartphone' },
+        { name: 'Tim', code: 41, category: 'Smartphone' },
+        { name: 'Claro', code: 21, category: 'Smartphone' },
+        { name: 'GVT', code: 25, category: 'Fixed' },
+        { name: 'Embratel', code: 21, category: 'Fixed' }
+      ];
+      $scope.colors = [
+        {name: 'Red', hexa: '#BF0413'},
+        {name: 'Blue', hexa: '#549EF7'},
+        {name: 'Orange', hexa: '#F2B705'},
+        {name: 'Pupple', hexa: '#78498C'},
+      ];
+      $scope.addContact = function (contact) {
+        $scope.contacts.push(angular.copy(contact));
+        delete $scope.contact;
+        // set o campo para PRISTINE novamente, após adicionar contato
+        $scope.contactForm.$setPristine();
+      };
+      $scope.deleteContact = function (contacts) {
+        $scope.contacts = contacts.filter(function (contact) {
+          if (!contact.selected) return contact;
+        });
+      };
+      $scope.isContactSelected = function (contacts) {
+        return contacts.some(function (contact) {
+          return contact.selected;
+        });
+      };
+    });
+  </script>
+</head>
+
+<body ng-controller="telephoneDirectoryCtrl">
+  <div class="jumbotron">
+    <h3>{{app}}</h3>
+    <table ng-show="contacts.length > 0" class="table table-striped">
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Operator</th>
+        <th></th>
+      </tr>
+      <tr ng-class="{'selected bold': contact.selected}" ng-repeat="contact in contacts">
+        <td><input type="checkbox" ng-model="contact.selected"></td>
+        <td>{{contact.name}}</td>
+        <td>{{contact.phone}}</td>
+        <td>{{contact.operator.name}}</td>
+        <td><div class="divColorContact" ng-style="{'background-color': contact.color.hexa}"></div></td>
+      </tr>
+    </table>
+    <hr />
+
+    <!-- Tag FORM neste caso cria um novo OBJETO dentro do nosso $scope, esse OBJETO é usado para validação -->
+    <!-- que por sua vez recebe informação de diretivas de validação, como ng-required, entre outras -->
+    <!-- É válido: {{contactForm.$valid}} <br/> -->
+    <!-- É inválido: {{contactForm.$invalid}} <br/> -->
+    <form name="contactForm" style="margin-bottom: .5rem;">
+      <input class="form-control" type="text" name="name" ng-model="contact.name" ng-required="true" ng-minlength="3" placeholder="Name"/>
+      <input class="form-control" type="text" name="phone" ng-model="contact.phone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/" placeholder="Phone"/>
+
+      <select class="form-control" name="operator" ng-model="contact.operator" ng-required="true" ng-options="operator.name for operator in operators">
+        <option value="">Select one operator</option>
+      </select>
+
+      <select class="form-control" name="color" ng-model="contact.color" ng-required="true" ng-options="color.name for color in colors">
+        <option value="">Select one color</option>
+      </select>
+      <button class="btn btn-primary btn-block" ng-click="addContact(contact)"
+        ng-disabled="contactForm.$invalid">Add Contact</button>
+      <button class="btn btn-danger btn-block" ng-click="deleteContact(contacts)"
+      ng-disabled="!isContactSelected(contacts)">Remove Contact</button>
+    </form>
+
+    <div class="alert alert-warning" ng-show="contactForm.name.$error.required && contactForm.name.$dirty">
+      <p style="margin: 0; padding: 0;">Fill in the field <strong>Name!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.name.$error.minlength">
+      <p style="margin: 0; padding: 0;">The <strong>Name</strong> field must be at least <strong>3 characters.</strong></p>
+    </div>
+
+    <div class="alert alert-warning" ng-show="contactForm.phone.$error.required && contactForm.phone.$dirty">
+      <p style="margin: 0; padding: 0;">Fill in the field <strong>Phone!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.phone.$error.pattern">
+      <p style="margin: 0; padding: 0;">The <strong>Phone</strong> field must have the format <strong>DDDDD-DDDD.</strong></p>
+    </div>
+
+    <!-- Forma mas objetiva de declarar mensagens -->
+    <!-- <div class="alert alert-warning" ng-messages="contactForm.name.$error">
+      <div ng-message="required" ng-show="contactForm.name.$dirty">
+        <p style="margin: 0; padding: 0;">Fill in the field <strong>Name!</strong></p>
+      </div>
+      <div ng-message="minlength">
+        <p style="margin: 0; padding: 0;">The <strong>Name</strong> field must be at least <strong>3 characters.</strong></p>
+      </div>
+    </div>
+
+    <div class="alert alert-warning" ng-messages="contactForm.phone.$error">
+      <div ng-message="required" ng-show="contactForm.name.$dirty">
+        <p style="margin: 0; padding: 0;">Fill in the field <strong>Phone!</strong></p>
+      </div>
+      <div ng-message="pattern">
+        <p style="margin: 0; padding: 0;">The <strong>Phone</strong> field must have the format <strong>DDDDD-DDDD.</strong></p>
+      </div> 
+    </div> -->
+
+    <div class="alert alert-warning" ng-show="contactForm.operator.$error.required && contactForm.operator.$dirty">
+      <p style="margin: 0; padding: 0;">Select an option <strong>Operator!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.color.$error.required && contactForm.color.$dirty">
+      <p style="margin: 0; padding: 0;">Select an option <strong>Color!</strong></p>
+    </div>
+  
+  </div>
+  <div ng-include="'footer.html'"></div>
+</body>
+</html>
