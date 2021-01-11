@@ -1,0 +1,39 @@
+.jumbotron {
+  width: 650px;
+  text-align: center;
+  margin: 20px auto 0 auto;
+}
+.table {
+  margin-top: 20px;
+}
+th a {
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+th a:hover {
+  color: #549EF7;
+  text-decoration: none;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form input, form select ,form button {
+  max-width: 550px;
+}
+.form-control {
+  margin-bottom: 10px;
+}
+.selected {
+  background: #FFF0A5;
+}
+.bold {
+  font-weight: bold;
+}
+.divColorContact {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
