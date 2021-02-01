@@ -6,9 +6,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 
 const contacts = [
-	{name: "Bruno", phone: "99999-2222", date: new Date(), operator: {name: "Oi", code: 14, category: "Smartphone"}, color: {name: 'Blue', hexa: '#549EF7'}},
-	{name: "Sandra", phone: "99999-3333", date: new Date(), operator: {name: "Vivo", code: 15, category: "Smartphone"}, color: {name: 'Red', hexa: '#BF0413'}},
-	{name: "Mariana", phone: "99999-9999", date: new Date(), operator: {name: "Tim", code: 41, category: "Smartphone"}, color: {name: 'Orange', hexa: '#F2B705'}}
+	{name: "bruno da silva", phone: "99999-2222", date: new Date(), operator: {name: "Oi", code: 14, category: "Smartphone"}, color: {name: 'Blue', hexa: '#549EF7'}},
+	{name: "SANDRA de oliveira", phone: "99999-3333", date: new Date(), operator: {name: "Vivo", code: 15, category: "Smartphone"}, color: {name: 'Red', hexa: '#BF0413'}},
+	{name: "Mariana sANTANA", phone: "99999-9999", date: new Date(), operator: {name: "Tim", code: 41, category: "Smartphone"}, color: {name: 'Orange', hexa: '#F2B705'}}
 ];
 const operators = [
 	{name: "Oi", code: 14, category: "Smartphone", price: 0.25},

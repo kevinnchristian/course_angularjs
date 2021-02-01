@@ -16,6 +16,8 @@
   <script src="lib/angular/angular-locale_en-us.js"></script>
   <script src="javascript/app.js"></script>
   <script src="javascript/controllers/telephoneDirectoryCtrl.js"></script>
+  <script src="javascript/filters/nameFilter.js"></script>
+  <script src="javascript/filters/ellipsisFilter.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -66,7 +68,7 @@
       </tr>
       <tr ng-class="{'selected bold': contact.selected}" ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder">
         <td><input type="checkbox" ng-model="contact.selected"></td>
-        <td>{{contact.name}}</td>
+        <td>{{contact.name | name | ellipsis:10}}</td>
         <td>{{contact.phone}}</td>
         <td>{{contact.operator.name | uppercase}}</td>
         <td>{{contact.date | date:'dd/MM/yyyy HH:mm'}}</td>
