@@ -1,10 +1,13 @@
 angular.module('telephoneDirectory').controller('telephoneDirectoryCtrl', function ($scope, $filter, $http) {
   $scope.app = 'Telephone Directory';
+  $scope.contact = {
+    date: 895892400000  // Mandando a data em milissegundos para view
+  };
   var loadingContacts = function () {
     $http.get('http://localhost:3412/contacts').then(function (res) {
       $scope.contacts = res.data;
     }, function (res) {
-      $scope.message = `ERROR: ${res.statusText} - Status: ${res.status}`
+      $scope.message = 'Não foi possível carregar os dados.'
     })
   };
   var loadingOperators = function () {
