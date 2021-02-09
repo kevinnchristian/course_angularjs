@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html ng-app="telephoneDirectory" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/img/angular_icon.png" type="image/x-icon">
+  <title>Modularizing</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/ui.css">
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-messages.js"></script>
+  <script src="lib/angular/angular-locale_en-us.js"></script>
+  <script src="javascript/app.js"></script>
+  <script src="javascript/controllers/telephoneDirectoryCtrl.js"></script>
+  <script src="javascript/filters/nameFilter.js"></script>
+  <script src="javascript/filters/ellipsisFilter.js"></script>
+  <script src="javascript/directives/uiAlertDirective.js"></script>
+  <script src="javascript/directives/uiDate.js"></script>
+  <script src="javascript/directives/uiAccordionDirective.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+
+</head>
+
+<body ng-controller="telephoneDirectoryCtrl">
+  <div class="jumbotron">
+    <ui-accordions>
+      <ui-accordion title="Accordion One">
+        <p>Name: test 1</p>
+        <p>Email: test@test.com</p>
+        <p>Site: test.com.br</p>
+      </ui-accordion>
+      <ui-accordion title="Accordion Two">
+        <p>Name: test 2</p>
+        <p>Email: test@test.com</p>
+        <p>Site: test.com.br</p>
+      </ui-accordion>
+      <ui-accordion title="Accordion Three">
+        <p>Name: test 3</p>
+        <p>Email: test@test.com</p>
+        <p>Site: test.com.br</p>
+      </ui-accordion>
+    </ui-accordions>
+
+    <hr />
+
+    <h3>{{app}}</h3>
+
+    <ui-alert ng-hide="loadingContacts == message" title="Ops, aconteceu um problema!">
+      {{message}}
+    </ui-alert>
+
+    <input class="form-control" type="text" ng-model="criteriaSearch" placeholder="What are you looking for?" />
+    <table ng-show="contacts.length > 0" class="table table-striped">
+      <tr>
+        <th></th>
+        <th>
+          Name
+          <a href="" class="material-icons" ng-click="orderByField('name')">
+            swap_vert
+          </a>
+        </th>
+        <th>
+          Phone
+          <a href="" class="material-icons" ng-click="orderByField('phone')">
+            swap_vert
+          </a>
+        </th>
+        <th>
+          Operator
+          <a href="" class="material-icons" ng-click="orderByField('operator.name')">
+            swap_vert
+          </a>
+        </th>
+        <th>
+          Date
+          <a href="" class="material-icons" ng-click="orderByField('date')">
+            swap_vert
+          </a>
+        </th>
+        <th>
+          <a href="" class="material-icons" ng-click="orderByField('color.name')">
+            swap_vert
+          </a>
+        </th>
+      </tr>
+      <tr ng-class="{'selected bold': contact.selected}"
+        ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder">
+        <td><input type="checkbox" ng-model="contact.selected"></td>
+        <td>{{contact.name | name | ellipsis:10}}</td>
+        <td>{{contact.phone}}</td>
+        <td>{{contact.operator.name | uppercase}}</td>
+        <td>{{contact.date | date:'dd/MM/yyyy HH:mm'}}</td>
+        <td>
+          <div class="divColorContact" ng-style="{'background-color': contact.color.hexa}"></div>
+        </td>
+      </tr>
+    </table>
+    <hr />
+
+    <form name="contactForm" style="margin-bottom: .5rem;">
+      <input class="form-control" type="text" name="name" ng-model="contact.name" ng-required="true" ng-minlength="3"
+        placeholder="Name" />
+      <input class="form-control" type="text" name="phone" ng-model="contact.phone" ng-required="true"
+        ng-pattern="/^\d{4,5}-\d{4}$/" placeholder="Phone" />
+      <input class="form-control" type="text" name="date" ng-model="contact.date" ng-required="true" ui-date
+        placeholder="Date (dd/mm/yyyy)">
+
+      <select class="form-control" name="operator" ng-model="contact.operator" ng-required="true"
+        ng-options="operator.name + ' ( ' + (operator.price | currency)+ ' ) ' for operator in operators | orderBy: 'name'">
+        <option value="">Select one operator</option>
+      </select>
+
+      <select class="form-control" name="color" ng-model="contact.color" ng-required="true"
+        ng-options="color.name for color in colors | orderBy: 'name'">
+        <option value="">Select one color</option>
+      </select>
+      <button class="btn btn-primary btn-block" ng-click="addContact(contact)" ng-disabled="contactForm.$invalid">Add
+        Contact</button>
+      <button class="btn btn-danger btn-block" ng-click="deleteContact(contacts)"
+        ng-disabled="!isContactSelected(contacts)">Remove Contact</button>
+    </form>
+
+    <div class="alert alert-warning" ng-show="contactForm.name.$error.required && contactForm.name.$dirty">
+      <p style="margin: 0; padding: 0;">Fill in the field <strong>Name!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.name.$error.minlength">
+      <p style="margin: 0; padding: 0;">The <strong>Name</strong> field must be at least <strong>3 characters.</strong>
+      </p>
+    </div>
+
+    <div class="alert alert-warning" ng-show="contactForm.phone.$error.required && contactForm.phone.$dirty">
+      <p style="margin: 0; padding: 0;">Fill in the field <strong>Phone!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.phone.$error.pattern">
+      <p style="margin: 0; padding: 0;">The <strong>Phone</strong> field must have the format
+        <strong>DDDDD-DDDD.</strong>
+      </p>
+    </div>
+
+    <div class="alert alert-warning" ng-show="contactForm.operator.$error.required && contactForm.operator.$dirty">
+      <p style="margin: 0; padding: 0;">Select an option <strong>Operator!</strong></p>
+    </div>
+    <div class="alert alert-warning" ng-show="contactForm.color.$error.required && contactForm.color.$dirty">
+      <p style="margin: 0; padding: 0;">Select an option <strong>Color!</strong></p>
+    </div>
+
+  </div>
+  <div ng-include="'./view/footer.html'"></div>
+</body>
+
+</html>
