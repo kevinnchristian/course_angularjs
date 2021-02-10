@@ -1,4 +1,14 @@
-angular.module('telephoneDirectory').directive('uiAccordions', function () {
+angular.module('ui', []);  // criando module
+
+angular.module('ui').run(function ($templateCache) {  // incializando template accordion com o [run]
+  // injetei o $templateCache se não, não funfa
+  $templateCache.put('view/accordion.html', `
+    <div class="ui-accordion-title" ng-click="open()">{{title}}</div>
+    <div class="ui-accordion-content" ng-show="isOpened" ng-transclude></div>
+  `);
+});
+
+angular.module('ui').directive('uiAccordions', function () {
   return {
     controller: function ($scope, $element, $attrs) { 
       var accordions = [];
@@ -16,7 +26,7 @@ angular.module('telephoneDirectory').directive('uiAccordions', function () {
   };
 });
 
-angular.module('telephoneDirectory').directive('uiAccordion', function () {
+angular.module('ui').directive('uiAccordion', function () {
   return {
     templateUrl: 'view/accordion.html',
     transclude: true,

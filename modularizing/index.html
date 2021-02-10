@@ -15,13 +15,15 @@
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular/angular-messages.js"></script>
   <script src="lib/angular/angular-locale_en-us.js"></script>
+  <script src="lib/serialGenerator/serialGenerator.js"></script>
+  <script src="lib/ui/ui.js"></script>
   <script src="javascript/app.js"></script>
   <script src="javascript/controllers/telephoneDirectoryCtrl.js"></script>
   <script src="javascript/filters/nameFilter.js"></script>
   <script src="javascript/filters/ellipsisFilter.js"></script>
   <script src="javascript/directives/uiAlertDirective.js"></script>
   <script src="javascript/directives/uiDate.js"></script>
-  <script src="javascript/directives/uiAccordionDirective.js"></script>
+  <script src="javascript/config/serialGeneratorConfig.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -64,6 +66,8 @@
     <table ng-show="contacts.length > 0" class="table table-striped">
       <tr>
         <th></th>
+        <th>Serial</th> 
+        <!-- Acrescentado nesta aula de Modularização -->
         <th>
           Name
           <a href="" class="material-icons" ng-click="orderByField('name')">
@@ -97,6 +101,8 @@
       <tr ng-class="{'selected bold': contact.selected}"
         ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder">
         <td><input type="checkbox" ng-model="contact.selected"></td>
+        <td>{{contact.serial}}</td> 
+        <!-- Acrescentado nesta aula de Modularização -->
         <td>{{contact.name | name | ellipsis:10}}</td>
         <td>{{contact.phone}}</td>
         <td>{{contact.operator.name | uppercase}}</td>
