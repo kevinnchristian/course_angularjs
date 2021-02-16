@@ -1,1 +1,1 @@
-angular.module('telephoneDirectory', ['ngMessages', 'serialGenerator', 'ui']);
+angular.module('telephoneDirectory', ['ngMessages', 'serialGenerator', 'ui', 'ngRoute']);
