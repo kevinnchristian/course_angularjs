@@ -1,0 +1,107 @@
+header * {
+  background-color: #000;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: bold;
+  height: 3rem;
+  width: 100%;
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+header nav a {
+  text-align: center;
+  max-width: 10rem;
+  margin: 0;
+  padding-top: 0.2rem;
+}
+
+header nav a:hover {
+  color: #ce377d;
+  text-decoration: none;
+}
+
+.jumbotron {
+  width: 650px;
+  text-align: center;
+  margin: 20px auto 0 auto;
+}
+.table {
+  margin-top: 20px;
+}
+th a {
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+th a:hover {
+  color: #549EF7;
+  text-decoration: none;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form input, form select ,form button {
+  max-width: 550px;
+}
+.form-control {
+  margin-bottom: 10px;
+}
+.selected {
+  background: #FFF0A5;
+}
+.bold {
+  font-weight: bold;
+}
+.divColorContact {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  background-color: #549EF7;
+  border-color: #549EF7;
+}
+
+.detailsContact .content {
+  text-align: left;
+  width: 100%;
+  padding-left: 5rem;
+}
+
+.detailsContact a {
+  margin-top: 3rem;
+}
+
+.pageError {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+}
+
+.messageError {
+  color: #ce377d;
+  text-align: center;
+}
+
+.messageError h1 {
+  font-size: 10em;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.messageError h5 {
+  font-size: 1.4em;
+  margin: 0 auto 1rem;
+}
