@@ -1,5 +1,6 @@
-angular.module('telephoneDirectory').controller('telephoneDirectoryCtrl', function ($scope, serialGenerator, contacts, operators, colors) {
-  $scope.app = 'Telephone Directory';
+angular.module('telephoneDirectory').controller('telephoneDirectoryCtrl', function ($scope, serialGenerator, contacts, operators, colors, $filter) {
+  // $filter vai permite construir qualquer tipo de filtro na aplicação
+  $scope.app = $filter('upper')('Telephone Directory');
 
   $scope.contacts = contacts.data;
   $scope.operators = operators.data;
@@ -50,6 +51,10 @@ angular.module('telephoneDirectory').controller('telephoneDirectoryCtrl', functi
     // console.log(count++); 
     var tax = 1.2;
     return price * tax;
+  }
+
+  $scope.reset = function () {
+    $scope.contacts = angular.copy($scope.contacts);
   }
 
   init();

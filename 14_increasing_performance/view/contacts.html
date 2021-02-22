@@ -1,4 +1,5 @@
 <div class="jumbotron">
+  {{app}}
   <h3>{{app}}</h3>
 
   <ui-alert ng-hide="loadingContacts == message" title="Ops, aconteceu um problema!">
@@ -49,7 +50,7 @@
       </th>
     </tr>
     <tr ng-class="{'selected bold': contact.selected}"
-      ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder">
+      ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder track by contact.id">
       <td><input type="checkbox" ng-model="contact.selected" ng-click="checkSelectedContact(contacts)"/></td>
       <td>{{::contact.serial}}</td>
       <td><a href="#/contactDetails/{{contact.id}}">{{::contact.name | name | ellipsis:10}}</a></td>
@@ -64,6 +65,8 @@
   </table>
   <button class="btn btn-danger btn-block" ng-click="deleteContact(contacts)" 
           ng-if="hasContactSelected">Remove Contact</button>
+  
+  <button class="btn btn-primary" ng-click="reset()">Reset</button>
   <hr />
 
   <a class="btn btn-primary btn-block" href="#/new">New Contact</a>

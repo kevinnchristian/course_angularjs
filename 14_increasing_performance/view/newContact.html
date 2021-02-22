@@ -1,7 +1,24 @@
 <div class="jumbotron">
   <form name="contactForm" style="margin-bottom: .5rem;">
-    <input class="form-control" type="text" name="name" ng-model="contact.name" ng-required="true" ng-minlength="3"
-      placeholder="Name" />
+    <select class="form-control" ng-model="contact.type">
+      <option value="">People Selected</option>
+      <option>Legal Person</option>
+      <option>Physical Person</option>
+    </select>
+
+    <div ng-show="contact.type === 'Physical Person'">
+      <input class="form-control" type="text" name="name" ng-model="contact.name" ng-required="true" ng-minlength="3"
+        placeholder="Name" />
+      <input class="form-control" type="text" ng-model="contact.cpf" name="cpf" placeholder="CPF" ng-required="true">
+    </div>
+
+    <div ng-show="contact.type === 'Legal Person'">
+      <input class="form-control" type="text" name="fantasyName" ng-model="contact.fantasyName" ng-required="true" ng-minlength="3"
+        placeholder="Fantasy Name" />
+      <input class="form-control" type="text" ng-model="contact.cnpj" name="cnpj" placeholder="CNPJ" ng-required="true">
+      <input class="form-control" type="text" ng-model="contact.companyName" name="companyName" placeholder="Company Name" ng-required="true">
+    </div>
+
     <input class="form-control" type="text" name="phone" ng-model="contact.phone" ng-required="true"
       ng-pattern="/^\d{4,5}-\d{4}$/" placeholder="Phone" />
     <input class="form-control" type="text" name="date" ng-model="contact.date" ng-required="true" ui-date
