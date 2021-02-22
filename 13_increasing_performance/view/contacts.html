@@ -5,7 +5,9 @@
     {{message}}
   </ui-alert>
 
-  <input class="form-control" type="text" ng-model="criteriaSearch" placeholder="What are you looking for?" />
+  <input class="form-control" type="text" ng-model="criteriaSearch"
+    ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" 
+    placeholder="What are you looking for?" />
   <table ng-show="contacts.length > 0" class="table table-striped">
     <tr>
       <th></th>
@@ -29,6 +31,12 @@
         </a>
       </th>
       <th>
+        Price
+        <a href="" class="material-icons" ng-click="orderByField('operator.price')">
+          swap_vert
+        </a>
+      </th>
+      <th>
         Date
         <a href="" class="material-icons" ng-click="orderByField('date')">
           swap_vert
@@ -42,20 +50,20 @@
     </tr>
     <tr ng-class="{'selected bold': contact.selected}"
       ng-repeat="contact in contacts | filter: criteriaSearch | orderBy: criteriaOrder: directionOrder">
-      <td><input type="checkbox" ng-model="contact.selected"></td>
-      <td>{{contact.serial}}</td>
-      <td><a href="#/contactDetails/{{contact.id}}">{{contact.name | name | ellipsis:10}}</a></td>
-      <td>{{contact.phone}}</td>
-      <td>{{contact.operator.name | uppercase}}</td>
-      <td>{{contact.date | date:'dd/MM/yyyy HH:mm'}}</td>
+      <td><input type="checkbox" ng-model="contact.selected" ng-click="checkSelectedContact(contacts)"/></td>
+      <td>{{::contact.serial}}</td>
+      <td><a href="#/contactDetails/{{contact.id}}">{{::contact.name | name | ellipsis:10}}</a></td>
+      <td>{{::contact.phone}}</td>
+      <td>{{::contact.operator.name | uppercase}}</td>
+      <td>{{::contact.operator.priceWithTax | currency}}</td>
+      <td>{{::contact.date | date:'dd/MM/yyyy HH:mm'}}</td>
       <td>
         <div class="divColorContact" ng-style="{'background-color': contact.color.hexa}"></div>
       </td>
     </tr>
   </table>
-  <button class="btn btn-danger btn-block" ng-click="deleteContact(contacts)"
-    ng-disabled="!isContactSelected(contacts)">Remove Contact</button>
-
+  <button class="btn btn-danger btn-block" ng-click="deleteContact(contacts)" 
+          ng-if="hasContactSelected">Remove Contact</button>
   <hr />
 
   <a class="btn btn-primary btn-block" href="#/new">New Contact</a>
